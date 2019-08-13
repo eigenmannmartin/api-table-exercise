@@ -30,7 +30,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadData: () => dispatch(actions.loadData()), // depending on the usecase we could dispatch this higher up the tree (right after @@INIT is fired)
+  loadData: () => dispatch(actions.loadData()), // depending on the usecase we could dispatch even before first render - that would eliminate flickering (initially is loading:false)
   setPageIndex: (page) => dispatch(actions.setPageIndex(page)),
   setPageSize: (page) => dispatch(actions.setPageSize(page))
 });

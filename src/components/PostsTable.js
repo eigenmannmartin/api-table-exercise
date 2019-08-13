@@ -4,7 +4,7 @@ import { Table, Menu, Dropdown } from 'semantic-ui-react'
 import { pathOr } from 'ramda'
 
 // We could make table more generic and configurable (I am skipping this here)
-export default function PostsTable({ rows, pagination = { pages: [] } }) {
+export default function PostsTable({ rows = [], pagination = { pages: [] } }) {
     const cols = [['title', 'Title'], ['body', 'Body'], ['user.name', 'userName'], ['commentCount', '#comments']]
 
     const renderBodyRow = (data, index) => (
@@ -23,9 +23,10 @@ export default function PostsTable({ rows, pagination = { pages: [] } }) {
             <Table.HeaderCell>
                 <Dropdown text={`show ${pagination.pageSize}/page`}>
                     <Dropdown.Menu>
-                        {[5, 10, 20, 100, 200].map(size => (
-                            <Dropdown.Item text={size} key={size} selected={pagination.pageSize === size} onClick={() => pagination.setPageSize(size)} />
-                        ))}
+                        { // I would build this dynamically depending on total item count
+                            [5, 10, 20, 100, 200].map(size => (
+                                <Dropdown.Item text={size} key={size} selected={pagination.pageSize === size} onClick={() => pagination.setPageSize(size)} />
+                            ))}
                     </Dropdown.Menu>
                 </Dropdown>
             </Table.HeaderCell>

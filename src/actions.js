@@ -25,6 +25,8 @@ export function setPageSize(size) {
         type: SET_PAGE_SIZE, payload: size
     }
 }
+
+// Here we dispatch api requests to the api middleware
 export function loadData() {
     return (dispatch) => {
         dispatch({

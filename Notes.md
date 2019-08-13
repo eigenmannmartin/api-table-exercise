@@ -1,0 +1,12 @@
+- normalizr.js is overkill in this scenario
+- the only selector "postsSelector" could be memoized
+- it is overkill to use ramda in this project (project is way to small)
+- I never used semantic UI before - but it looks very promising
+- In practice we would redesign the api in a way where we have a better control over what fields it delivers (e.g. give us the number of comments, inline the userName,...)
+- It is not "pretty" - but that was not the task
+- generally we could cleanup this code - but it really depends on the coding style you already have
+- I did not use PropTypes -> Typescript is much better in handling that anyway (You could also use FlowType if you really want to)
+- I did not use React-Intl
+- This will not work for server side rendered applications
+- I have no tests
+- you can visit a live deployment here: api-table-excercice.eigenmannmartin.ch
