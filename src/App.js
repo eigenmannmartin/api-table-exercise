@@ -1,51 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Segment, Table, Menu, Dropdown } from 'semantic-ui-react'
-import { pathOr } from 'ramda'
+import { Dimmer, Loader, Segment, Container, Header } from 'semantic-ui-react'
 import * as actions from './actions' // contained in actions -> prevents unintended access
 import * as selectors from './selectors'
-
-
-// We could make table more generic and configurable (I am skipping this here)
-const PostsTable = ({ rows, pagination = { pages: [] } }) => {
-  const cols = [['title', 'Title'], ['body', 'Body'], ['user.name', 'userName'], ['commentCount', '#comments']]
-
-  const renderBodyRow = (data, index) => (
-    <Table.Row key={index}>
-      {cols.map(([path, name]) => (
-        <Table.Cell key={path}>{pathOr('', path.split("."), data)}</Table.Cell>
-      ))}
-    </Table.Row>
-  )
-  const headerRow = cols.map(([path, name]) => (
-    <Table.HeaderCell key={path}>{name}</Table.HeaderCell>
-  ))
-
-  const footerRow = (
-    <Table.Row >
-      <Table.HeaderCell>
-        <Dropdown text={`show ${pagination.pageSize}/page`}>
-          <Dropdown.Menu>
-            {[5, 10, 20, 100, 200].map(size => (
-              <Dropdown.Item text={size} key={size} selected={pagination.pageSize === size} onClick={() => pagination.setPageSize(size)} />
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      </Table.HeaderCell>
-      <Table.HeaderCell colSpan={cols.length}>
-        <Menu floated='right' pagination>
-          {[...Array(pagination.pageCount).keys()].map(page => (
-            // I should avoid having arrow functions in JSX - If we would ship this to prod we might split it up anyway
-            <Menu.Item key={page} onClick={() => pagination.setPageIndex(page)} as='a' active={page === pagination.pageIndex}>{page + 1}</Menu.Item>
-          ))}
-        </Menu>
-      </Table.HeaderCell>
-    </Table.Row>
-  )
-  return (
-    <Table celled compact tableData={rows} renderBodyRow={renderBodyRow} headerRow={headerRow} footerRow={footerRow} />
-  )
-}
+import PostsTable from './components/PostsTable'
 
 function App({ loadData, posts, setPageIndex, setPageSize }) {
   useEffect(() => {
@@ -53,14 +11,17 @@ function App({ loadData, posts, setPageIndex, setPageSize }) {
   }, [loadData])
 
   return (
-    <div className="app">
+    <Container>
+      <Segment>
+        <Header textAlign='center'>Posts</Header>
+      </Segment>
       <Segment>
         <Dimmer active={posts.loading} inverted>
           <Loader inverted content='Loading' />
         </Dimmer>
         <PostsTable rows={posts.data} pagination={{ setPageIndex, setPageSize, pageCount: posts.pageCount, pageSize: posts.pageSize, pageIndex: posts.pageIndex }} />
       </Segment>
-    </div>
+    </Container>
   );
 }
 

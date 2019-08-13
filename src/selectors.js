@@ -7,6 +7,7 @@ const selectPageSize = pathOr({}, ['page', 'size'])
 const selectPageIndex = pathOr({}, ['page', 'index'])
 
 export const postsSelector = state => {
+    const posts = selectPosts(state)
     const comments = selectComments(state)
     const users = selectUsers(state)
     const pageSize = selectPageSize(state)
@@ -19,6 +20,7 @@ export const postsSelector = state => {
         pathOr(null, ['comments', 'loading'], state)
     ].some(Boolean)
 
+    // normalizer does not handle foreign key denormalization :'(
     const data = compose(
         // compute the commentCount - here we could use memization
         map(post => set(
@@ -32,17 +34,17 @@ export const postsSelector = state => {
             propOr(null, post.userId, users),
             post
         )),
-        // normalizer does not handle foreign key denormalization :'(
         map(last),
+        // only touch data that will be displayed
+        posts => posts.slice(pageIndex * pageSize, pageIndex * pageSize + pageSize),
         toPairs,
-        selectPosts
-    )(state)
+    )(posts)
 
     return {
-        data: data.slice(pageIndex * pageSize, pageIndex * pageSize + pageSize),
+        data,
         loading,
         // We could use a different selector for this... but it feels like these props belong here
-        pageCount: Math.ceil(data.length / pageSize),
+        pageCount: Math.ceil(Object.keys(posts).length / pageSize),
         pageSize,
         pageIndex,
     }
