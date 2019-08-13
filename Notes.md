@@ -9,5 +9,5 @@
 - I did not use React-Intl
 - This will not work for server side rendered applications
 - I have no tests
-- you can visit a live deployment here: api-table-excercice.eigenmannmartin.ch
-- the error "componentWillMount has been renamed, and is not recommended for use." are semantic-ui errors -> https://github.com/Semantic-Org/Semantic-UI-React/issues/3741
+- you can visit a live deployment [here](https://api-table-excercice.eigenmannmartin.ch
+- the error `componentWillMount has been renamed, and is not recommended for use.` are semantic-ui errors -> [3741](https://github.com/Semantic-Org/Semantic-UI-React/issues/3741)
