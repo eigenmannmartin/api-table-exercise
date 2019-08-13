@@ -8,10 +8,33 @@ export const USERS_REQUEST = "@@user/USERS_REQUEST"
 export const USERS_SUCCESS = "@@user/USERS_SUCCESS"
 export const USERS_FAILURE = "@@user/USERS_FAILURE"
 
-export const APPLY_POSTS = "APPLY_POSTS"
+export const COMMENTS_REQUEST = "@@comment/USERS_REQUEST"
+export const COMMENTS_SUCCESS = "@@comment/USERS_SUCCESS"
+export const COMMENTS_FAILURE = "@@comment/USERS_FAILURE"
 
+export const SET_PAGE_INDEX = "@@page/SET_PAGE_INDEX"
+export const SET_PAGE_SIZE = "@@page/SET_PAGE_SIZE"
+
+export function setPageIndex(index) {
+    return {
+        type: SET_PAGE_INDEX, payload: index
+    }
+}
+export function setPageSize(size) {
+    return {
+        type: SET_PAGE_SIZE, payload: size
+    }
+}
 export function loadData() {
     return (dispatch) => {
+        dispatch({
+            [RSAA]: {
+                endpoint: 'https://jsonplaceholder.typicode.com/comments',
+                method: 'GET',
+                types: [COMMENTS_REQUEST, COMMENTS_SUCCESS, COMMENTS_FAILURE]
+            }
+        })
+
         dispatch({
             [RSAA]: {
                 endpoint: 'https://jsonplaceholder.typicode.com/users',
